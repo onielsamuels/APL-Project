@@ -113,14 +113,14 @@ class Position:
 TT_INT			= 'INT' #Integer token
 TT_FLOAT    	= 'FLOAT' #Float token
 TT_STRING		= 'STRING' #String 
-TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token
-TT_KEYWORD		= 'KEYWORD'
+TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token used to create variable names
+TT_KEYWORD		= 'KEYWORD' #Keyword token ised to create a list of keywords for our language
 TT_PLUS     	= 'PLUS' #Plus token for addition operator +
 TT_MINUS    	= 'MINUS' #Minus token for subration operator -
 TT_MUL      	= 'MUL' #Mul token for multiplication operator *
 TT_DIV      	= 'DIV' #Div token for division token /
-TT_POW			= 'POW'
-TT_EQ			= 'EQ'
+TT_POW			= 'POW' #POW token for the power operator ^
+TT_EQ			= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
 TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
 TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
 TT_EE			= 'EE'
@@ -134,7 +134,8 @@ TT_ARROW		= 'ARROW'
 TT_EOF			= 'EOF'
 
 KEYWORDS = [
-	'VAR',
+	'VAR', #Our first key word Var can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
+		   #signifies that a is an identifier but it is also the variable or variable name becasue VAR is infront of it.
 	'AND',
 	'OR',
 	'NOT',
@@ -235,34 +236,43 @@ class Lexer:
 				#is followed by a greater than sign for a right arrow or has a less than sign infront of it for a left arrow
 				#if the minus operator stands aone then it becomes the minus operator for calculations.
 				tokens.append(self.make_minus_or_arrow())
-				#Here we are checking if the current character is the plus operator *
+				#Here we are checking if the current character is the Multiply operator *
 			elif self.current_char == '*':
 				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(Token(TT_MUL, pos_start=self.pos))
 				#After the token is appended we increment to the next character/position in the string
 				self.advance()
-				#Here we are checking if the current character is the plus operator /
+				#Here we are checking if the current character is the Division operator /
 			elif self.current_char == '/':
 				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(Token(TT_DIV, pos_start=self.pos))
 				#After the token is appended we increment to the next character/position in the string
 				self.advance()
+				#Here we are checking if the current character is the Power operator
 			elif self.current_char == '^':
+				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(Token(TT_POW, pos_start=self.pos))
+				#After the token is appended we increment to the next character/position in the string
 				self.advance()
 				#Here we are checking if the current character is the ( for left parenthesis
 			elif self.current_char == '(':
+				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(Token(TT_LPAREN, pos_start=self.pos))
+				#After the token is appended we increment to the next character/position in the string
 				self.advance()
 				#Here we are checking if the current character is the ) for right parenthesis
 			elif self.current_char == ')':
+				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(Token(TT_RPAREN, pos_start=self.pos))
+				#After the token is appended we increment to the next character/position in the string
 				self.advance()
 			elif self.current_char == '!':
 				token, error = self.make_not_equals()
 				if error: return [], error
 				tokens.append(token)
+				#Here we are checking if the current character is the = for the equal sign
 			elif self.current_char == '=':
+				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(self.make_equals())
 			elif self.current_char == '<':
 				tokens.append(self.make_less_than())
@@ -650,6 +660,7 @@ class Parser:
 	def term(self):
 		return self.bin_op(self.factor, (TT_MUL, TT_DIV))
 
+	#Creating method for our factor grammer
 	def factor(self):
 		res = ParseResult()
 		tok = self.current_tok
@@ -1103,7 +1114,7 @@ class Value:
 	def ored_by(self, other):
 		return None, self.illegal_operation(other)
 
-	def notted(self):
+	def notted(self, other):
 		return None, self.illegal_operation(other)
 
 	def execute(self, args):
@@ -1123,6 +1134,7 @@ class Value:
 			self.context
 		)
 
+#Creating a class Number that accepts a value as an argument
 class Number(Value):
 	def __init__(self, value):
 		super().__init__()
@@ -1339,12 +1351,16 @@ class SymbolTable:
 # INTERPRETER
 #######################################
 
+#Creating a class interpreter that has a method visit that accepts an argument node
 class Interpreter:
+	#The purpose of the visit method is to traverse the AST and check each node
 	def visit(self, node, context):
+		#Creating a string method name that displays the type of node
 		method_name = f'visit_{type(node).__name__}'
 		method = getattr(self, method_name, self.no_visit_method)
 		return method(node, context)
-
+	
+	#The no visit method is used to output an Exceprion if the visit method does not have an input to check
 	def no_visit_method(self, node, context):
 		raise Exception(f'No visit_{type(node).__name__} method defined')
 
@@ -1556,6 +1572,7 @@ def run(fn, text):
 	if ast.error: return None, ast.error
 
 	# Run program
+	#Creating an interpreter instance
 	interpreter = Interpreter()
 	context = Context('<program>')
 	context.symbol_table = global_symbol_table
