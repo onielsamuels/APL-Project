@@ -38,13 +38,23 @@ atom 				: INT|FLOAT|STRING|IDENTIFIER
 						: while-expr
 						: func-def
 
+				/*For our if-expr rule it states that we have to have the keyword IF followed by an expression followed by the keyword THEN and an expression.
+				For example IF num == 2 THEN print ("Num is a even number")*/
 if-expr			: KEYWORD:IF expr KEYWORD:THEN expr
+							/*Additionally, for our if-expr we can have one or more IF statement in the form of ELIF to evaluate the condition false for our first if statement
+							For Example IF num / 2 == 0 THEN print ("Num is a even number") ELIF num / 2 != 0 THEN print ("Num is a odd number")*/
 							(KEYWORD:ELIF expr KEYWORD:THEN expr)*
+							/*Finally, we have the option to use the keyword ELSE followed by an expression to further evaluate our conditions.
 							(KEYWORD:ELSE expr)?
 
+				/*For our for-expr it states that to use a FOR loop, we have to have the keyword FOR followed by an identifier, followed by the equal sign followed by the keyword
+				TO followed by an expression. Additionally, we have the option to use the keyword STEP in our FOR loop as well as the KEYWORD THEN.
+				For example For a = 0 TO 3 THEN print ("Number is in DIGITS")*/
 for-expr		: KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr 
 							(KEYWORD:STEP expr)? KEYWORD:THEN expr
 
+				/*For our while-expr rule it states that to use a WHILE loop, we have to have the keyword WHILE followed by an expression followed by the keyword THEN which
+				is followed by another expression. For example WHILE num != 3 THEN print ("Number is in DIGITS")*/
 while-expr	: KEYWORD:WHILE expr KEYWORD:THEN expr
 
 func-def		: KEYWORD:FUN IDENTIFIER?
