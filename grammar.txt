@@ -49,7 +49,7 @@ if-expr			: KEYWORD:IF expr KEYWORD:THEN expr
 
 				/*For our for-expr it states that to use a FOR loop, we have to have the keyword FOR followed by an identifier, followed by the equal sign followed by the keyword
 				TO followed by an expression. Additionally, we have the option to use the keyword STEP in our FOR loop as well as the KEYWORD THEN.
-				For example For a = 0 TO 3 THEN print ("Number is in DIGITS")*/
+				For example For a = 0 TO 3 THEN result = result * 1
 for-expr		: KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr 
 							(KEYWORD:STEP expr)? KEYWORD:THEN expr
 
