@@ -1,12 +1,23 @@
 
+					/*For our expr grammer rule, we are stating that a expr can be a KEYWORD VAR followed by an identifier
+					which would be our variable name for example var num. Additionally, for our expression it can contain an equal sign followed by another expression.
+					var num = 13; */
 expr				: KEYWORD:VAR IDENTIFIER EQ expr
+						#For our logical operation rule we can have one or more factors followed by a comparisson expression followed by the keyword AND or OR
+						followed by another factor. For example a == 5 and b == 6 or 1 == 2 or 1 == 3*/
 						: comp-expr ((KEYWORD:AND|KEYWORD:OR) comp-expr)*
 
+				/*For our comparisson expression, we can have a NOT keyword followed by another comparisson expression.
+				For example NOT 1 == 2*/
 comp-expr		: NOT comp-expr
+						/*Additionally, our comparisson expression can consist of a arithmetic expression on the left hand side 
+						followed by one or more comparisson tokens followed by another arithmetic expression. For example 5 > 6 or 1 == 2*/
 						: arith-expr ((EE|LT|GT|LTE|GTE) arith-expr)*
 
+					/*For our arithmetic expression rule, we can have one or more factors being added or subtracted by another term
+					Additionally, the factors can be written in brackets to abid by the BOMDAS Rule. For example 3((-3) * 4)*/
 arith-expr	:	term ((PLUS|MINUS) term)*
-
+					#For our term expression we can have one or more factors followed by the MUL or DIV operator*/
 term				: factor ((MUL|DIV) factor)*
 
 factor			: (PLUS|MINUS) factor
@@ -16,7 +27,11 @@ power				: call (POW factor)*
 
 call				: atom (LPAREN (expr (COMMA expr)*)? RPAREN)?
 
+					/*For our atom rule, we can have a integer, float, string or identifier being entered*/
 atom 				: INT|FLOAT|STRING|IDENTIFIER
+						/*Additionally for our atom rule we can have an expression that contains a ( followed by an expression immediatelly follwed by a )
+						For example (5 + 5.5) integer + a float
+						(a + b) identifier + identifier */
 						: LPAREN expr RPAREN
 						: if-expr
 						: for-expr
