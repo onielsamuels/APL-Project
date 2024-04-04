@@ -13,6 +13,7 @@ import string
 #Creating a constant digits which stores counting numbers that will be used to assign a number string 
 #to a type of Integer of Float depending on if a number is followed by a decimal point
 DIGITS = '0123456789'
+#Here we are using a inbuit function string.ascii_letters which will allow us to use the letters of the alphabet
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
 
@@ -113,7 +114,7 @@ class Position:
 TT_INT			= 'INT' #Integer token
 TT_FLOAT    	= 'FLOAT' #Float token
 TT_STRING		= 'STRING' #String 
-TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token used to create variable names
+TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token used to create variable names. Variable names can have Upper and lower case letters, numbers and undersocre.
 TT_KEYWORD		= 'KEYWORD' #Keyword token ised to create a list of keywords for our language
 TT_PLUS     	= 'PLUS' #Plus token for addition operator +
 TT_MINUS    	= 'MINUS' #Minus token for subration operator -
@@ -123,14 +124,14 @@ TT_POW			= 'POW' #POW token for the power operator ^
 TT_EQ			= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
 TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
 TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
-TT_EE			= 'EE'
-TT_NE			= 'NE'
-TT_LT			= 'LT'
-TT_GT			= 'GT'
-TT_LTE			= 'LTE'
-TT_GTE			= 'GTE'
-TT_COMMA		= 'COMMA' 
-TT_ARROW		= 'ARROW'
+TT_EE			= 'EE' #EE token for equal equal ==
+TT_NE			= 'NE' #NE token for not equal
+TT_LT			= 'LT' #LT token for less than
+TT_GT			= 'GT' #GT token for greater than
+TT_LTE			= 'LTE' #LTE token for less than or equal
+TT_GTE			= 'GTE' #GTE token for greater than or equal
+TT_COMMA		= 'COMMA' #Comma token for comma
+TT_ARROW		= 'ARROW' 
 TT_EOF			= 'EOF'
 
 KEYWORDS = [
@@ -165,7 +166,9 @@ class Token:
 
 		if pos_end:
 			self.pos_end = pos_end.copy()
-
+	#In our tokens class we created a sub class called matches that matches the value that was entered to its corresponding token type.
+	#For example, if VAR _num = 13 was entered, VAR would be matched to a keyword token, _num would be matched to a identifier token
+	# = would be matched to the EQ token and 13 would be matched to the integer token
 	def matches(self, type_, value):
 		return self.type == type_ and self.value == value
 	#__repr__ returns a printable representation of the object
@@ -219,6 +222,7 @@ class Lexer:
 				#Additionally in the append method we created a method called make number which will take a number string and determine
 				#whether or not the number string can be assigned to an integer or float
 				tokens.append(self.make_number())
+				#Here we are checking if the current character is a number string from our constant called Letters
 			elif self.current_char in LETTERS:
 				tokens.append(self.make_identifier())
 			elif self.current_char == '"':
@@ -274,8 +278,10 @@ class Lexer:
 			elif self.current_char == '=':
 				#The .append method is used to assign the value/type of the token to the specific token it belongs to in the list
 				tokens.append(self.make_equals())
+				#Here we are checking if the current character is the < for the less than
 			elif self.current_char == '<':
 				tokens.append(self.make_less_than())
+				#Here we are checking if the current character is the > for the greater than
 			elif self.current_char == '>':
 				tokens.append(self.make_greater_than())
 			elif self.current_char == ',':
@@ -349,14 +355,19 @@ class Lexer:
 		self.advance()
 		return Token(TT_STRING, string, pos_start, self.pos)
 
+	#Creating a function called make_identifier which will be used to create a variable namef
 	def make_identifier(self):
+		#Just like in the make number function, we have to keep track of the identifier string
 		id_str = ''
 		pos_start = self.pos.copy()
 
+		#Here we are checking if there is a current character that is either a letter or digit, also we are accounting for underscores
 		while self.current_char != None and self.current_char in LETTERS_DIGITS + '_':
 			id_str += self.current_char
 			self.advance()
 
+		#Here we created a variable to check if the value in our identifier string is a part of our keyword list for example VAR or AND.
+		#Else if it is not in our keywords list the value in our identifier string will be an identifier or variable.
 		tok_type = TT_KEYWORD if id_str in KEYWORDS else TT_IDENTIFIER
 		return Token(tok_type, id_str, pos_start, self.pos)
 
@@ -596,22 +607,27 @@ class Parser:
 	def expr(self):
 		res = ParseResult()
 
+		#Here we are checking to see if the keyword VAR was entered.
 		if self.current_tok.matches(TT_KEYWORD, 'VAR'):
 			res.register_advancement()
 			self.advance()
-
+			#Here we are checking to see if a identifier was not entered after the keyword VAR was entered.
 			if self.current_tok.type != TT_IDENTIFIER:
 				return res.failure(InvalidSyntaxError(
+					#If a keyword was not entered then we would throw a Invalid Syntax Error
 					self.current_tok.pos_start, self.current_tok.pos_end,
-					"Expected identifier"
+					"Expected identifier / variable name"
 				))
 
+			#If an identifier was entered it will be stored in the var_name variable
 			var_name = self.current_tok
 			res.register_advancement()
 			self.advance()
-
+			
+			#We also have to check if an equal sign was entered after VAR and an identifier was entered because of our grammer rule
 			if self.current_tok.type != TT_EQ:
 				return res.failure(InvalidSyntaxError(
+					#If it was not entered we will throw an Invalid Syntax Error
 					self.current_tok.pos_start, self.current_tok.pos_end,
 					"Expected '='"
 				))
@@ -716,6 +732,7 @@ class Parser:
 			return res.success(CallNode(atom, arg_nodes))
 		return res.success(atom)
 
+	#Here we are setting the rules for our atom grammer
 	def atom(self):
 		res = ParseResult()
 		tok = self.current_tok
@@ -730,6 +747,7 @@ class Parser:
 			self.advance()
 			return res.success(StringNode(tok))
 
+		#Here we have to check if the token type is an identifier
 		elif tok.type == TT_IDENTIFIER:
 			res.register_advancement()
 			self.advance()
@@ -1330,6 +1348,7 @@ class Context:
 # SYMBOL TABLE
 #######################################
 
+#The purpose of the symbol table is to keep track of the variable names and their values
 class SymbolTable:
 	def __init__(self, parent=None):
 		self.symbols = {}
