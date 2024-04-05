@@ -49,7 +49,7 @@ if-expr			: KEYWORD:IF expr KEYWORD:THEN expr
 
 				/*For our for-expr it states that to use a FOR loop, we have to have the keyword FOR followed by an identifier, followed by the equal sign followed by the keyword
 				TO followed by an expression. Additionally, we have the option to use the keyword STEP in our FOR loop as well as the KEYWORD THEN.
-				For example For a = 0 TO 3 THEN result = result * 1
+				For example For a = 0 TO 3 THEN result = result * 1*/
 for-expr		: KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr 
 							(KEYWORD:STEP expr)? KEYWORD:THEN expr
 
@@ -57,6 +57,12 @@ for-expr		: KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr
 				is followed by another expression. For example WHILE num != 3 THEN print ("Number is in DIGITS")*/
 while-expr	: KEYWORD:WHILE expr KEYWORD:THEN expr
 
+				/*For our function rule it states that to create a function, we have to first use the keyword FUN followed by an optional identifier or variable name.
+				Additionally for our function definition there should be a left parenthesis to begin stating our arguments, however, we have the option to add arguments
+				to our function definition (?) else we must have an identifier followed by a comma then followed by zero or more identifier(s). Finally, our function
+				definition will be closed with an right parenthesis.*/
 func-def		: KEYWORD:FUN IDENTIFIER?
 							LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
+							/*After defining our function to execute the arguments we must have the arrow token which consists of a minus sign and the greater than sign
+							followed by an expression.*/
 							ARROW expr

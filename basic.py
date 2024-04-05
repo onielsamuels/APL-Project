@@ -130,7 +130,7 @@ TT_LT			= 'LT' #LT token for less than
 TT_GT			= 'GT' #GT token for greater than
 TT_LTE			= 'LTE' #LTE token for less than or equal
 TT_GTE			= 'GTE' #GTE token for greater than or equal
-TT_COMMA		= 'COMMA' #Comma token for comma
+TT_COMMA		= 'COMMA' #Comma token for comma when defining our functions
 TT_ARROW		= 'ARROW' 
 TT_EOF			= 'EOF'
 
