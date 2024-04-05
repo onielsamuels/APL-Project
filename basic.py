@@ -113,7 +113,7 @@ class Position:
 
 TT_INT			= 'INT' #Integer token
 TT_FLOAT    	= 'FLOAT' #Float token
-TT_STRING		= 'STRING' #String 
+TT_STRING		= 'STRING' #String  token
 TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token used to create variable names. Variable names can have Upper and lower case letters, numbers and undersocre.
 TT_KEYWORD		= 'KEYWORD' #Keyword token ised to create a list of keywords for our language
 TT_PLUS     	= 'PLUS' #Plus token for addition operator +
@@ -225,6 +225,7 @@ class Lexer:
 				#Here we are checking if the current character is a number string from our constant called Letters
 			elif self.current_char in LETTERS:
 				tokens.append(self.make_identifier())
+				#Here we are checking if the current character is the double quotation operator "" to use for our string 
 			elif self.current_char == '"':
 				tokens.append(self.make_string())
 				#Here we are checking if the current character is the plus operator + 
