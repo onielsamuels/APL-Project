@@ -124,6 +124,8 @@ TT_POW			= 'POW' #POW token for the power operator ^
 TT_EQ			= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
 TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
 TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
+TT_LSQUARE		= 'LSQUARE' #Left square bracket token
+TT_RSQUARE		= 'RSQUARE' #Right square bracket token
 TT_EE			= 'EE' #EE token for equal equal ==
 TT_NE			= 'NE' #NE token for not equal
 TT_LT			= 'LT' #LT token for less than
@@ -132,11 +134,11 @@ TT_LTE			= 'LTE' #LTE token for less than or equal
 TT_GTE			= 'GTE' #GTE token for greater than or equal
 TT_COMMA		= 'COMMA' #Comma token for comma when defining our functions
 TT_ARROW		= 'ARROW' 
-TT_EOF			= 'EOF'
+TT_EOF			= 'EOF' #End of file token
 
 KEYWORDS = [
-	'VAR', #Our first key word Var can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
-		   #signifies that a is an identifier but it is also the variable or variable name becasue VAR is infront of it.
+	'VAR', #Our first key word VAR can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
+		   #signifies that 'a' is an identifier but it is also the variable or variable name because VAR is infront of it.
 	'AND', #AND keyword which is used for expressions
 	'OR', #OR keyword which is used for expressions
 	'NOT', #NOT keyword which is used for expressions
@@ -151,7 +153,7 @@ KEYWORDS = [
 	'THEN' #THEN keyword which is typically used in IF statements.
 ]
 
-#Creating a token class the will take a value of type (INT, FLOAT, String) and a value
+#Creating a token class that will take a value of type (INT, FLOAT, String) and a value
 class Token:
 	def __init__(self, type_, value=None, pos_start=None, pos_end=None):
 		#self.type = type and self.value = value is a method or function that returns an instance of the class it belongs to, 
@@ -192,12 +194,12 @@ class Lexer:
 		self.pos = Position(-1, 0, -1, fn, text)
 		#Here we are tracking the current character
 		self.current_char = None
-		#Calling the advance function to increment the currrent character
+		#Calling the advance function to increment the current character
 		self.advance()
 	
 
 	def advance(self):
-		#Incrementing the currect character
+		#Incrementing the current character
 		self.pos.advance(self.current_char)
 		#Here we are setting the current character to the position of the character in the string, 
 		#which only happens if the current character is less than the position of the text.
@@ -270,6 +272,12 @@ class Lexer:
 				tokens.append(Token(TT_RPAREN, pos_start=self.pos))
 				#After the token is appended we increment to the next character/position in the string
 				self.advance()
+			elif self.current_char == '[':
+				tokens.append(Token(TT_LSQUARE, pos_start=self.pos))
+				self.advance()
+			elif self.current_char == ']':
+				tokens.append(Token(TT_RSQUARE, pos_start=self.pos))
+				self.advance()
 			elif self.current_char == '!':
 				token, error = self.make_not_equals()
 				if error: return [], error
@@ -326,7 +334,7 @@ class Lexer:
 		if dot_count == 0:
 			#We will return a token of type integer and convert the number string to an integer
 			return Token(TT_INT, int(num_str), pos_start, self.pos)
-		#Else if the dot count does not equal to 0, we will return a token of type float and conver][] the number string to float
+		#Else if the dot count does not equal to 0, we will return a token of type float and convert[] the number string to float
 		else:
 			return Token(TT_FLOAT, float(num_str), pos_start, self.pos)
 
@@ -450,6 +458,13 @@ class StringNode:
 
 	def __repr__(self):
 		return f'{self.tok}'
+
+class ListNode:
+	def __init__(self, element_nodes, pos_start, pos_end):
+		self.element_nodes = element_nodes
+
+		self.pos_start = pos_start
+		self.pos_end = pos_end
 
 class VarAccessNode:
 	def __init__(self, var_name_tok):
@@ -732,7 +747,7 @@ class Parser:
 			return res.success(CallNode(atom, arg_nodes))
 		return res.success(atom)
 
-	#Here we are setting the rules for our atom grammer
+	#Here we are setting the rules for our atom grammar
 	def atom(self):
 		res = ParseResult()
 		tok = self.current_tok
@@ -768,6 +783,11 @@ class Parser:
 					"Expected ')'"
 				))
 		
+		elif tok.type == TT_LSQUARE:
+			list_expr = res.register(self.list_expr())
+			if res.error: return res
+			return res.success(list_expr)		
+		
 		elif tok.matches(TT_KEYWORD, 'IF'):
 			if_expr = res.register(self.if_expr())
 			if res.error: return res
@@ -792,6 +812,18 @@ class Parser:
 			tok.pos_start, tok.pos_end,
 			"Expected int, float, identifier, '+', '-', '(', 'IF', 'FOR', 'WHILE', 'FUN'"
 		))
+
+	def list_expr(self):
+		res = ParseResult()
+		element_nodes = []
+		pos_start = self.current_tok.pos_start.copy()
+
+		if self.current_tok.type != TT_LSQUARE:
+			return res.failure(InvalidSyntaxError(
+			self.current_tok.pos_start, self.current_tok.pos_end,
+			f"Expected '['"
+		))
+
 
 	def if_expr(self):
 		res = ParseResult()
