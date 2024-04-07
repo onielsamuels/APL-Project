@@ -238,6 +238,7 @@ class Lexer:
 				#Here we are checking if the current character is a number string from our constant called Letters
 			elif self.current_char in LETTERS:
 				tokens.append(self.make_identifier())
+				#Here we are checking if the current character is the double quotation operator "" to use for our string 
 			elif self.current_char == '"':
 				tokens.append(self.make_string())
 				#Here we are checking if the current character is the plus operator + 
