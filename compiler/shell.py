@@ -1,4 +1,4 @@
-import basic
+import compiler.basic as basic
 
 #Creating a loop that will read the input from the terminal window
 while True:
