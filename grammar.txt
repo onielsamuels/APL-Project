@@ -88,8 +88,7 @@ while-expr	: KEYWORD:WHILE expr KEYWORD:THEN
 				to our function definition (?) else we must have an identifier followed by a comma then followed by zero or more identifier(s). Finally, our function
 				definition will be closed with an right parenthesis.*/
 func-def	: KEYWORD:FUN IDENTIFIER?
-			LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
-						
+			LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN	
 				/*After defining our function to execute the arguments we must have the arrow token which consists of a minus sign and the greater than sign
 				followed by an expression.*/
 			(ARROW expr)
