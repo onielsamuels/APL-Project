@@ -125,42 +125,42 @@ TT_PLUS     	= 'PLUS'#Plus token for addition operator +
 TT_MINUS    	= 'MINUS' #Minus token for subration operator -
 TT_MUL      	= 'MUL' #Mul token for multiplication operator *
 TT_DIV      	= 'DIV' #Div token for division operstor /
-TT_POW			= 'POW' #POW token for the power operator ^
-TT_EQ			= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
+TT_POW			  = 'POW' #POW token for the power operator ^
+TT_EQ			    = 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
 TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
 TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
-TT_LSQUARE    	= 'LSQUARE' #Left square bracket token
-TT_RSQUARE    	= 'RSQUARE' #Right square bracket token
-TT_EE			= 'EE' #EE token for equal equal ==
-TT_NE			= 'NE' #NE token for not equal
-TT_GT			= 'GT' #GT token for greater than
-TT_LT			= 'LT' #LT token for less than
-TT_LTE			= 'LTE' #LTE token for less than or equal
-TT_GTE			= 'GTE' #GTE token for greater than or equal
-TT_COMMA		= 'COMMA'
-TT_ARROW		= 'ARROW'
+TT_LSQUARE    = 'LSQUARE' #Left square bracket token
+TT_RSQUARE    = 'RSQUARE' #Right square bracket token
+TT_EE			    = 'EE' #EE token for equal equal ==
+TT_NE			    = 'NE' #NE token for not equal
+TT_GT			    = 'GT' #GT token for greater than
+TT_LT			    = 'LT' #LT token for less than
+TT_LTE			  = 'LTE' #LTE token for less than or equal
+TT_GTE			  = 'GTE' #GTE token for greater than or equal
+TT_COMMA		  = 'COMMA'
+TT_ARROW		  = 'ARROW'
 TT_NEWLINE		= 'NEWLINE'
-TT_EOF			= 'EOF'
+TT_EOF			  = 'EOF'
 
 KEYWORDS = [
-  'VAR', #Our first key word VAR can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
-          #signifies that 'a' is an identifier but it is also the variable or variable name because VAR is infront of it.
-  'AND', #AND keyword which is used for expressions
-  'OR', #OR keyword which is used for expressions
-  'NOT', #NOT keyword which is used for expressions
-  'IF', #IF keyword used for IF statements
-  'ELIF', #ElIF keyword which means ELSE IF in other programming languages
-  'ELSE', #ELSE keyword
-  'FOR', #FOR keyword used for loops
-  'TO', #TO keyword used for loops
-  'STEP', #STEP keyword used for loops
-  'WHILE', #WHILE keyword used while loops
-  'FUN', #FUN keyword used to create functions
-  'THEN', #THEN keyword which is typically used in IF statements.
-  'END',
-  'RETURN',
-  'CONTINUE',
-  'BREAK',
+  'VAR',    #Our first key word VAR can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
+            #signifies that 'a' is an identifier but it is also the variable or variable name because VAR is infront of it.
+  'AND',    #AND keyword which is used for expressions
+  'OR',     #OR keyword which is used for expressions
+  'NOT',    #NOT keyword which is used for expressions
+  'IF',     #IF keyword used for IF statements
+  'ELIF',   #ElIF keyword which means ELSE IF in other programming languages
+  'ELSE',   #ELSE keyword
+  'FOR',    #FOR keyword used for loops
+  'TO',     #TO keyword used for loops
+  'STEP',   #STEP keyword used for loops
+  'WHILE',  #WHILE keyword used while loops
+  'FUN',    #FUN keyword used to create functions
+  'THEN',   #THEN keyword which is typically used in IF statements.
+  'END',    #END for all conditional statements and functions
+  'RETURN', #RETURN for functions
+  'CONTINUE',#To continue loops
+  'BREAK',  #To exit loops
 ]
 
 #Creating a token class that will take a value of type (INT, FLOAT, String) and a value

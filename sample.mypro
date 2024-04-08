@@ -1,7 +1,6 @@
-# This is a very useful piece of software
+FUN testFunc(prefix) -> prefix + "am"
 
-FUN oopify(prefix) -> prefix + "oop"
-
+# function to test
 FUN join(elements, separator)
 	VAR result = ""
 	VAR len = LEN(elements)
@@ -27,5 +26,5 @@ END
 PRINT("Greetings universe!")
 
 FOR i = 0 TO 5 THEN
-	PRINT(join(map(["l", "sp"], oopify), ", "))
+	PRINT(join(map(["s", "p"], testFunc), ", "))
 END

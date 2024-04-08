@@ -14,7 +14,7 @@ print("                                        ")
 print("                                        ")
 
 while True:
-	text = input('yabcc > ')
+	text = input('\nyabcc > ')
 	if text.strip() == "": continue
 	result, error = yabcc.run('<stdin>', text)
 
