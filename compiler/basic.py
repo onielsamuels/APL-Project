@@ -2,7 +2,7 @@
 # IMPORTS
 #######################################
 
-from strings_with_arrows import *
+from compiler.strings_with_arrows import *
 
 import string
 import os
@@ -183,6 +183,7 @@ class Token:
 	def __repr__(self):
 		#If the token has a value, the output will show the token type followed by a : and then the value of the token.
 		if self.value: return f'{self.type}:{self.value}'
+	
 		#Else if the token does not have a value it will print the type
 		return f'{self.type}'
 
@@ -1809,7 +1810,7 @@ class BuiltInFunction(BaseFunction):
 
 	def execute_print_ret(self, exec_ctx):
 		return RTResult().success(String(str(exec_ctx.symbol_table.get("value"))))
-	execute_print.arg_names = ["value"]
+	execute_print_ret.arg_names = ["value"]
 
 	def execute_input(self, exec_ctx):
 		text = input()
@@ -2311,4 +2312,5 @@ def run(fn, text):
 	context.symbol_table = global_symbol_table
 	result = interpreter.visit(ast.node, context)
 
+	print(result.value)
 	return result.value, result.error

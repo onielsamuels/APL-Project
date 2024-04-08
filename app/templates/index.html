@@ -3,15 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Input Text Fields</title>
+    <title>Code Compiler</title>
 </head>
 <body>
-    <form action="/submit" method="post">
-        <label for="field1">Field 1:</label>
-        <input type="text" id="field1" name="field1"><br><br>
-        <label for="field2">Field 2:</label>
-        <input type="text" id="field2" name="field2"><br><br>
-        <input type="submit" value="Submit">
+    <h1>Code Compiler</h1>
+    <form id="compileForm">
+        <textarea id="codeInput" name="code" rows="10" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Compile">
     </form>
+    <div id="output">
+        <!-- Output will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('compileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            var code = document.getElementById('codeInput').value; // Get code from textarea
+            compileCode(code); // Call compileCode function with code as argument
+        });
+    
+        function compileCode(code) {
+            var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+            xhr.open('POST', '/compile', true); // Open POST request to /compile route
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set request header
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) { // Check if request is complete and successful
+                    var outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML = ""; // Clear previous output
+                    var lines = xhr.responseText.split('\n'); // Split response by newline character
+                    console.log(xhr.responseText);
+                    lines.forEach(function(line) { // Iterate over lines
+                        var textNode = document.createTextNode(line); // Create text node for each line
+                        outputDiv.appendChild(textNode); // Append text node to output div
+                        outputDiv.appendChild(document.createElement("br")); // Add line break after each line
+                    });
+                }
+            };
+            xhr.send('code=' + encodeURIComponent(code)); // Send code in the request body
+        }
+
+
+        // // Update the JavaScript code to handle the response from the server
+        // function compileCode(code) {
+        //     var xhr = new XMLHttpRequest(); // Create new XMLHttpRequest object
+        //     xhr.open('POST', '/compile', true); // Open POST request to /compile route
+        //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set request header
+        //     xhr.onreadystatechange = function() {
+        //         if (xhr.readyState === 4 && xhr.status === 200) { // Check if request is complete and successful
+        //             document.getElementById('output').innerText = xhr.responseText; // Update output div with response
+        //         }
+        //     };
+        //     xhr.send('code=' + encodeURIComponent(code)); // Send code in the request body
+        // }
+    </script>
+    
 </body>
 </html>
