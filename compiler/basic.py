@@ -116,82 +116,96 @@ class Position:
 # TOKENS
 #######################################
 
-TT_INT				= 'INT'
-TT_FLOAT    	= 'FLOAT'
-TT_STRING			= 'STRING'
-TT_IDENTIFIER	= 'IDENTIFIER'
-TT_KEYWORD		= 'KEYWORD'
-TT_PLUS     	= 'PLUS'
-TT_MINUS    	= 'MINUS'
-TT_MUL      	= 'MUL'
-TT_DIV      	= 'DIV'
-TT_POW				= 'POW'
-TT_EQ					= 'EQ'
-TT_LPAREN   	= 'LPAREN'
-TT_RPAREN   	= 'RPAREN'
-TT_LSQUARE    = 'LSQUARE'
-TT_RSQUARE    = 'RSQUARE'
-TT_EE					= 'EE'
-TT_NE					= 'NE'
-TT_LT					= 'LT'
-TT_GT					= 'GT'
-TT_LTE				= 'LTE'
-TT_GTE				= 'GTE'
+TT_INT				= 'INT' #Integer Token
+TT_FLOAT    	= 'FLOAT' #Float Token
+TT_STRING			= 'STRING' #String Token
+TT_IDENTIFIER	= 'IDENTIFIER' #Identifier token used to create variable names. Variable names can have Upper and lower case letters, numbers and underscore.
+TT_KEYWORD		= 'KEYWORD' #Keyword token ised to create a list of keywords for our language
+TT_PLUS     	= 'PLUS'#Plus token for addition operator +
+TT_MINUS    	= 'MINUS' #Minus token for subration operator -
+TT_MUL      	= 'MUL' #Mul token for multiplication operator *
+TT_DIV      	= 'DIV' #Div token for division operstor /
+TT_POW				= 'POW' #POW token for the power operator ^
+TT_EQ					= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
+TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
+TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
+TT_LSQUARE    = 'LSQUARE' #Left square bracket token
+TT_RSQUARE    = 'RSQUARE' #Right square bracket token
+TT_EE					= 'EE' #EE token for equal equal ==
+TT_NE					= 'NE' #NE token for not equal
+TT_LT					= 'LT' #LT token for less than
+TT_GT					= 'GT' #GT token for greater than
+TT_LTE				= 'LTE' #LTE token for less than or equal
+TT_GTE				= 'GTE' #GTE token for greater than or equal
 TT_COMMA			= 'COMMA'
 TT_ARROW			= 'ARROW'
 TT_NEWLINE		= 'NEWLINE'
 TT_EOF				= 'EOF'
 
 KEYWORDS = [
-  'VAR',
-  'AND',
-  'OR',
-  'NOT',
-  'IF',
-  'ELIF',
-  'ELSE',
-  'FOR',
-  'TO',
-  'STEP',
-  'WHILE',
-  'FUN',
-  'THEN',
+  'VAR', #Our first key word VAR can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR
+          #signifies that 'a' is an identifier but it is also the variable or variable name because VAR is infront of it.
+  'AND', #AND keyword which is used for expressions
+  'OR', #OR keyword which is used for expressions
+  'NOT', #NOT keyword which is used for expressions
+  'IF', #IF keyword used for IF statements
+  'ELIF', #ElIF keyword which means ELSE IF in other programming languages
+  'ELSE', #ELSE keyword
+  'FOR', #FOR keyword used for loops
+  'TO', #TO keyword used for loops
+  'STEP', #STEP keyword used for loops
+  'WHILE', #WHILE keyword used while loops
+  'FUN', #FUN keyword used to create functions
+  'THEN', #THEN keyword which is typically used in IF statements.
   'END',
   'RETURN',
   'CONTINUE',
   'BREAK',
 ]
 
+#Creating a token class that will take a value of type (INT, FLOAT, String) and a value
 class Token:
-  def __init__(self, type_, value=None, pos_start=None, pos_end=None):
-    self.type = type_
-    self.value = value
+	def __init__(self, type_, value=None, pos_start=None, pos_end=None):
+		#self.type = type and self.value = value is a method or function that returns an instance of the class it belongs to, 
+		#similarly in java this is how we create an instance
+		self.type = type_
+		self.value = value
 
-    if pos_start:
-      self.pos_start = pos_start.copy()
-      self.pos_end = pos_start.copy()
-      self.pos_end.advance()
+		if pos_start:
+			self.pos_start = pos_start.copy()
+			self.pos_end = pos_start.copy()
+			self.pos_end.advance()
 
-    if pos_end:
-      self.pos_end = pos_end.copy()
-
-  def matches(self, type_, value):
-    return self.type == type_ and self.value == value
-  
-  def __repr__(self):
-    if self.value: return f'{self.type}:{self.value}'
-    return f'{self.type}'
+		if pos_end:
+			self.pos_end = pos_end.copy()
+	#In our tokens class we created a sub class called matches that matches the value that was entered to its corresponding token type.
+	#For example, if VAR _num = 13 was entered, VAR would be matched to a keyword token, _num would be matched to a identifier token
+	# = would be matched to the EQ token and 13 would be matched to the integer token
+	def matches(self, type_, value):
+		return self.type == type_ and self.value == value
+	#__repr__ returns a printable representation of the object
+	def __repr__(self):
+		#If the token has a value, the output will show the token type followed by a : and then the value of the token.
+		if self.value: return f'{self.type}:{self.value}'
+	
+		#Else if the token does not have a value it will print the type
+		return f'{self.type}'
 
 #######################################
 # LEXER
 #######################################
 
+#Creating a Lexer Class that will take a value of filename and text
 class Lexer:
   def __init__(self, fn, text):
     self.fn = fn
     self.text = text
+    #Here we are tracking the current position, we start the position at -1 
+		#Here we created an instance of the position method and set the index value to -1, the column value to 0 and the line value to -1
     self.pos = Position(-1, 0, -1, fn, text)
+    #Here we are tracking the current character
     self.current_char = None
+    #Calling the advance function to increment the current character
     self.advance()
   
   def advance(self):
