@@ -1,5 +1,5 @@
-# import compiler.yabcc as yabcc
-import yabcc as yabcc
+import compiler.yabcc as yabcc
+# import yabcc as yabcc
 
 print("                                        ")
 print("                                        ")
