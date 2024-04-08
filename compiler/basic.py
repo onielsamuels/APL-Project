@@ -2,8 +2,8 @@
 # IMPORTS
 #######################################
 
-from compiler.strings_with_arrows import *
-# from strings_with_arrows import *
+# from compiler.strings_with_arrows import *
+from strings_with_arrows import *
 
 import string
 import os

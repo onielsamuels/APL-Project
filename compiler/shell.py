@@ -1,5 +1,5 @@
-import compiler.basic as basic
-# import basic
+# import compiler.basic as basic
+import basic
 
 while True:
 	text = input('yabcc > ')
