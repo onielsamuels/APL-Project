@@ -3,10 +3,16 @@
 #######################################
 
 from compiler.strings_with_arrows import *
+from bardapi import Bard
 
 import string
 import os
 
+os.environ["_BARD_API_KEY"] = "g.a000hQg5ZXT2j0Q2mAhnOp-2wB8nCD6HnGxqNnjAn3GbN8oQj1yMLKqQrcFVXmZPlUkyn8oCDwACgYKAVsSAQASFQHGX2MiqrcOz7ZKmvrvg7ryEH2nYhoVAUF8yKpvBkLAG8kErB-Fgf2dIa8H0076"
+
+source = input("What is Lex and Yacc")
+
+Bard.get_answer(source)
 #######################################
 # CONSTANTS
 #######################################
