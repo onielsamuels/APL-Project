@@ -52,8 +52,7 @@ def compile_code():
     elif result:
         output_elements = []
         for item in result.elements:
-            if not str(item).startswith('<compiler'):
-                output_elements.append(str(item))
+            output_elements.append(str(item))
         output = "\n".join(output_elements)
         return output
     
