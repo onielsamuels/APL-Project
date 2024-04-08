@@ -43,7 +43,8 @@ def index():
 def compile_code():
     code = request.form['code']
 
-    code = code.replace("PRINT", "PRINT_RET") # So that the output does not print in the console
+    # So that the output does not print in the console
+    code = code.replace("PRINT", "PRINT_RET") 
 
     result, error = basic.run('<stdin>', code)
 

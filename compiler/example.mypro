@@ -8,22 +8,24 @@ FUN join(elements, separator)
 
 	FOR i = 0 TO len THEN
 		VAR result = result + elements/i
-		VAR result = result + separator
+		IF i != len - 1 THEN VAR result = result + separator
 	END
 
-    PRINT(result)
 	RETURN result
+END
+
+FUN map(elements, func)
+	VAR new_elements = []
+
+	FOR i = 0 TO LEN(elements) THEN
+		APPEND(new_elements, func(elements/i))
+	END
+
+	RETURN new_elements
 END
 
 PRINT("Greetings universe!")
 
 FOR i = 0 TO 5 THEN
-	PRINT(join([oopify("l"), oopify("sp")], ", "))
+	PRINT(join(map(["l", "sp"], oopify), ", "))
 END
-
-FUN test() 
-    VAR x = 2
-    RETURN x
-END
-
-PRINT(test())
