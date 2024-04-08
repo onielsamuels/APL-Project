@@ -18,7 +18,10 @@ import math
 # CONSTANTS
 #######################################
 
+#Creating a constant digits which stores counting numbers that will be used to assign a number string 
+#to a type of Integer of Float depending on if a number is followed by a decimal point
 DIGITS = '0123456789'
+#Here we are using a inbuilt function string.ascii_letters which will allow us to use the letters of the alphabet
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
 
@@ -26,6 +29,8 @@ LETTERS_DIGITS = LETTERS + DIGITS
 # ERRORS
 #######################################
 
+
+#Creating a class error which takes a start and ending position as well as an error name and details of the error
 class Error:
   def __init__(self, pos_start, pos_end, error_name, details):
     self.pos_start = pos_start
@@ -33,12 +38,15 @@ class Error:
     self.error_name = error_name
     self.details = details
   
+  
+	#Creating a method as string method that outputs the error name followed by a : and the details
   def as_string(self):
     result  = f'{self.error_name}: {self.details}\n'
     result += f'File {self.pos_start.fn}, line {self.pos_start.ln + 1}'
     result += '\n\n' + string_with_arrows(self.pos_start.ftxt, self.pos_start, self.pos_end)
     return result
 
+#Creating a sub class called Illegal Character Method that will check the characters that are not supported by  Lexer and throws an error
 class IllegalCharError(Error):
   def __init__(self, pos_start, pos_end, details):
     super().__init__(pos_start, pos_end, 'Illegal Character', details)
@@ -78,6 +86,7 @@ class RTError(Error):
 # POSITION
 #######################################
 
+#Creating a class position to keep track of the index, line, column, file name and file text of errors while the lexer is running
 class Position:
   def __init__(self, idx, ln, col, fn, ftxt):
     self.idx = idx
@@ -86,16 +95,20 @@ class Position:
     self.fn = fn
     self.ftxt = ftxt
 
+  #Creating an advance method that takes a current character
   def advance(self, current_char=None):
+    #if the current character equals to none then we will increment the index and column
     self.idx += 1
     self.col += 1
 
+    #IF the current character is equal to a new line, we will set the line count to 1 and the column count to 0
     if current_char == '\n':
       self.ln += 1
       self.col = 0
 
     return self
 
+  #Creating a method copy to duplicate the values of the index, line and column
   def copy(self):
     return Position(self.idx, self.ln, self.col, self.fn, self.ftxt)
 
