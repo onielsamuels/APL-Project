@@ -125,22 +125,22 @@ TT_PLUS     	= 'PLUS'#Plus token for addition operator +
 TT_MINUS    	= 'MINUS' #Minus token for subration operator -
 TT_MUL      	= 'MUL' #Mul token for multiplication operator *
 TT_DIV      	= 'DIV' #Div token for division operstor /
-TT_POW				= 'POW' #POW token for the power operator ^
-TT_EQ					= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
+TT_POW			= 'POW' #POW token for the power operator ^
+TT_EQ			= 'EQ' #Equal token used for assigning a value to a variable, for example VAR num = 10
 TT_LPAREN   	= 'LPAREN' #LPAREN token for Left Parenthesis symbol (
 TT_RPAREN   	= 'RPAREN' #RPAREN token for Right Parenthesis symbol )
-TT_LSQUARE    = 'LSQUARE' #Left square bracket token
-TT_RSQUARE    = 'RSQUARE' #Right square bracket token
-TT_EE					= 'EE' #EE token for equal equal ==
-TT_NE					= 'NE' #NE token for not equal
-TT_LT					= 'LT' #LT token for less than
-TT_GT					= 'GT' #GT token for greater than
-TT_LTE				= 'LTE' #LTE token for less than or equal
-TT_GTE				= 'GTE' #GTE token for greater than or equal
-TT_COMMA			= 'COMMA'
-TT_ARROW			= 'ARROW'
+TT_LSQUARE    	= 'LSQUARE' #Left square bracket token
+TT_RSQUARE    	= 'RSQUARE' #Right square bracket token
+TT_EE			= 'EE' #EE token for equal equal ==
+TT_NE			= 'NE' #NE token for not equal
+TT_GT			= 'GT' #GT token for greater than
+TT_LT			= 'LT' #LT token for less than
+TT_LTE			= 'LTE' #LTE token for less than or equal
+TT_GTE			= 'GTE' #GTE token for greater than or equal
+TT_COMMA		= 'COMMA'
+TT_ARROW		= 'ARROW'
 TT_NEWLINE		= 'NEWLINE'
-TT_EOF				= 'EOF'
+TT_EOF			= 'EOF'
 
 KEYWORDS = [
   'VAR', #Our first key word VAR can also be an identifier but in this instance we use VAR to initiate creating an variable. For instance VAR a. Using the keyword VAR

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import compiler.basic as basic
+import compiler.yabcc as yabcc
 
 app = Flask(__name__)
 
@@ -46,7 +46,7 @@ def compile_code():
     # So that the output does not print in the console
     code = code.replace("PRINT", "PRINT_RET") 
 
-    result, error = basic.run('<stdin>', code)
+    result, error = yabcc.run('<stdin>', code)
 
     if error:
         return error.as_string()

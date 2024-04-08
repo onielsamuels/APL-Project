@@ -1,10 +1,22 @@
-# import compiler.basic as basic
-import basic
+# import compiler.yabcc as yabcc
+import yabcc as yabcc
+
+print("                                        ")
+print("                                        ")
+print("██    ██  █████  ██████   ██████  ██████")
+print(" ██  ██  ██   ██ ██   ██ ██      ██     ")
+print("  ████   ███████ ██████  ██      ██     ")
+print("   ██    ██   ██ ██   ██ ██      ██     ")
+print("   ██    ██   ██ ██████   ██████  ██████")
+print("                                        ")
+print("  Yet Another BASIC Compiler Compiler   ")
+print("                                        ")
+print("                                        ")
 
 while True:
 	text = input('yabcc > ')
 	if text.strip() == "": continue
-	result, error = basic.run('<stdin>', text)
+	result, error = yabcc.run('<stdin>', text)
 
 	if error:
 		print(error.as_string())
