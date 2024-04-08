@@ -484,8 +484,8 @@ class StringNode:
 		self.pos_start = self.tok.pos_start
 		self.pos_end = self.tok.pos_end
 
-	def __repr__(self):
-		return f'{self.tok}'
+	# def __repr__(self):
+	# 	return f'{self.tok}'
 
 class ListNode:
 	def __init__(self, element_nodes, pos_start, pos_end):
@@ -519,8 +519,8 @@ class BinOpNode:
 		self.pos_start = self.left_node.pos_start
 		self.pos_end = self.right_node.pos_end
 
-	def __repr__(self):
-		return f'({self.left_node}, {self.op_tok}, {self.right_node})'
+	# def __repr__(self):
+	# 	return f'({self.left_node}, {self.op_tok}, {self.right_node})'
 
 class UnaryOpNode:
 	def __init__(self, op_tok, node):
@@ -530,8 +530,8 @@ class UnaryOpNode:
 		self.pos_start = self.op_tok.pos_start
 		self.pos_end = node.pos_end
 
-	def __repr__(self):
-		return f'({self.op_tok}, {self.node})'
+	# def __repr__(self):
+	# 	return f'({self.op_tok}, {self.node})'
 
 class IfNode:
 	def __init__(self, cases, else_case):
@@ -1639,8 +1639,8 @@ class String(Value):
 	def __str__(self):
 		return self.value
 
-	def __repr__(self):
-		return f'"{self.value}"'
+	# def __repr__(self):
+	# 	return f'"{self.value}"'
 
 
 class List(Value):
@@ -1698,8 +1698,8 @@ class List(Value):
 	def __str__(self):
 		return ", ".join([str(x) for x in self.elements])
 	
-	def __repr__(self):
-		return f'[{", ".join([str(x) for x in self.elements])}]'
+	# def __repr__(self):
+	# 	return f'[{", ".join([str(x) for x in self.elements])}]'
 
 class BaseFunction(Value):
 	def __init__(self, name):
@@ -1772,8 +1772,8 @@ class Function(BaseFunction):
 		copy.set_pos(self.pos_start, self.pos_end)
 		return copy
 
-	def __repr__(self):
-		return f"<function {self.name}>"
+	# def __repr__(self):
+	# 	return f"<function {self.name}>"
 	
 
 class BuiltInFunction(BaseFunction):
@@ -1805,8 +1805,8 @@ class BuiltInFunction(BaseFunction):
 		copy.set_pos(self.pos_start, self.pos_end)
 		return copy
 
-	def __repr__(self):
-		return f"<built-in function {self.name}>"
+	# def __repr__(self):
+	# 	return f"<built-in function {self.name}>"
 	
 
 	def execute_print(self, exec_ctx):
