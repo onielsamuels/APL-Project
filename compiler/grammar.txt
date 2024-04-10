@@ -14,10 +14,6 @@ expr		: KEYWORD:VAR IDENTIFIER EQ expr
 				#For our logical operation rule we can have one or more factors followed by a comparison expression followed by the keyword AND or OR
 				followed by another factor. For example a == 5 and b == 6 or 1 == 2 or 1 == 3*/
 			| comp-expr ((KEYWORD:AND|KEYWORD:OR) comp-expr)*
-			| if-expr
-			| for-expr
-			| while-expr
-			| func-def
 
 				/*For our comparison expression, we can have a NOT keyword followed by another comparison expression.
 				For example NOT 1 == 2*/

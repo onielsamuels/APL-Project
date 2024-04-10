@@ -15,9 +15,6 @@ print("                                        ")
 print("                                        ")
 
 
-print("This is the smooth caret feature but to be honest, it's not that smooth")
-
-
 while True:
 	text = input('\nyabcc > ')
 	if text.strip() == "": continue
