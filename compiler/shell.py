@@ -1,3 +1,4 @@
+#The path compiler was added for the deployment, not for the terminal application
 # import compiler.yabcc as yabcc
 import yabcc as yabcc
 
@@ -12,6 +13,10 @@ print("                                        ")
 print("  Yet Another BASIC Compiler Compiler   ")
 print("                                        ")
 print("                                        ")
+
+
+print("This is the smooth caret feature but to be honest, it's not that smooth")
+
 
 while True:
 	text = input('\nyabcc > ')

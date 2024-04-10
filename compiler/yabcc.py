@@ -2,18 +2,14 @@
 # IMPORTS
 #######################################
 
-# from compiler.strings_with_arrows import *
+#The path compiler was added for the deployment, not for the terminal application
+# from compiler.strings_with_arrows import *  
 from strings_with_arrows import *
 
 import string
 import os
 import math
 
-#os.environ["_BARD_API_KEY"] = "g.a000hQg5ZXT2j0Q2mAhnOp-2wB8nCD6HnGxqNnjAn3GbN8oQj1yMLKqQrcFVXmZPlUkyn8oCDwACgYKAVsSAQASFQHGX2MiqrcOz7ZKmvrvg7ryEH2nYhoVAUF8yKpvBkLAG8kErB-Fgf2dIa8H0076"
-
-#source = input("What is Lex and Yacc")
-
-#Bard.get_answer(source)
 #######################################
 # CONSTANTS
 #######################################
@@ -25,10 +21,10 @@ DIGITS = '0123456789'
 LETTERS = string.ascii_letters
 LETTERS_DIGITS = LETTERS + DIGITS
 
+
 #######################################
 # ERRORS
 #######################################
-
 
 #Creating a class error which takes a start and ending position as well as an error name and details of the error
 class Error:
